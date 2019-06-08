@@ -5,23 +5,26 @@
 from random import *
 from math import *
 
-def insertion(point, tree_node, d, trav): # Parameters: (Point, Tree, Dimension, Current Depth)
+def insertion(point, tree_node, trav): # Parameters: (Point, Tree, Current Depth)
 	dim = trav % d
-	if (point[dim] < tree_node[0][dim]) and (tree_node[1] == None):
-		new_node = [point, None, None, trav]
-		tree_node[1] = new_node
-	elif (point[dim] < tree_node[0][dim]) and (tree_node[1] != None): 
-		insertion(point, tree_node[1], d, trav + 1)
-	if (point[dim] >= tree_node[0][dim]) and (tree_node[2] == None): 
-		new_node = [point, None, None, trav]
-		tree_node[2] = new_node
-	elif (point[dim] >= tree_node[0][dim]) and (tree_node[2] != None):  
-		insertion(point, tree_node[2], d, trav + 1) 
+
+	if (point[dim] < tree_node[0][dim]):
+		if (tree_node[1] == None):
+			new_node = [point, None, None]
+			tree_node[1] = new_node
+		else:
+			insertion(point, tree_node[1], trav + 1)
+	if (point[dim] >= tree_node[0][dim]):
+		if  (tree_node[2] == None):
+			new_node = [point, None, None]
+			tree_node[2] = new_node
+		else: 
+			insertion(point, tree_node[2], trav + 1) 
 
 	return tree_node
 
-def nested_kd_list(x, d):
-	tree_node = [None, None, None, -1] # Structure: [Point, Left Node, Right Node, Current Depth]
+def nested_kd_list(x):
+	tree_node = [None, None, None] # Structure: [Point, Left Node, Right Node]
 	
 	i = 0
 	while i < len(x):
@@ -30,7 +33,7 @@ def nested_kd_list(x, d):
 		else:
 			trav = 0
 			#print(x[i])
-			tree_node = insertion(x[i], tree_node, d, trav)
+			tree_node = insertion(x[i], tree_node, trav)
 		#print(tree_node)
 		
 		i += 1
@@ -45,6 +48,8 @@ def main():
 	#dimensions = 2
 	for sample_points in pointList:
 		dimensions = len(sample_points[0])
-		nested_kd_list(sample_points, dimensions)
+		global d
+		d = dimensions
+		nested_kd_list(sample_points)
 
 main()
