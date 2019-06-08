@@ -9,13 +9,13 @@ def insertion(point, tree_node, d, trav): # Parameters: (Point, Tree, Dimension,
 	dim = trav % d
 	if (point[dim] < tree_node[0][dim]) and (tree_node[1] == None):
 		new_node = [point, None, None, trav]
-	else if (point[dim] >= tree_node[0][dim]) and (tree_node[1] != None): 
+	elif (point[dim] >= tree_node[0][dim]) and (tree_node[1] != None): 
 		return insertion(point, tree_node[1], d, trav + 1)
 		tree_node[1] = new_node
 	if (point[dim] >= tree_node[0][dim]) and (tree_node[2] == None): 
 		new_node = [point, None, None, trav]
 		tree_node[2] = new_node
-	else if (point[dim] >= tree_node[0][dim]) and (tree_node[2] != None):  
+	elif (point[dim] >= tree_node[0][dim]) and (tree_node[2] != None):  
 		return insertion(point, tree_node[2], d, trav + 1) 
 
 	return tree_node
@@ -25,7 +25,7 @@ def nested_kd_list(x, d):
 	
 	i = 0
 	while i < len(x):
-		if i = 0:
+		if i == 0:
 			tree_node[0] = x[i]
 		else:
 			trav = 0
@@ -38,6 +38,6 @@ def nested_kd_list(x, d):
 def main():
 	points = [(1,10), (3,5), (5,4), (5,3), (2,8)]
 	dimensions = 2
-	nested_kd_list(points, dimensions)
+	print(nested_kd_list(points, dimensions))
 
 main()
