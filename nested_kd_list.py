@@ -7,6 +7,8 @@ from random import *
 from math import *
 
 
+xy_size = 11 # Square plot
+
 def insertion(point, tree_node, cur_dep): # Parameters: (Point, Tree, Current Depth)
 	dim = cur_dep % d
 
@@ -14,6 +16,7 @@ def insertion(point, tree_node, cur_dep): # Parameters: (Point, Tree, Current De
 		if (tree_node[1] == None):
 			new_node = [point, None, None]
 			tree_node[1] = new_node
+			l_or_r = 0
 		else:
 			insertion(point, tree_node[1], cur_dep + 1)
 			
@@ -21,10 +24,14 @@ def insertion(point, tree_node, cur_dep): # Parameters: (Point, Tree, Current De
 		if  (tree_node[2] == None):
 			new_node = [point, None, None]
 			tree_node[2] = new_node
+			l_or_r = 1
 		else: 
 			insertion(point, tree_node[2], cur_dep + 1) 
 
+	kd_plot(point, dim, l_or_r)
+
 	return tree_node
+
 
 def nested_kd_list(x):
 	tree_node = [None, None, None] # Structure: [Point, Left Node, Right Node]
@@ -42,19 +49,33 @@ def nested_kd_list(x):
 
 	return tree_node
 
-# Attempting to create a recursive-like structure to create a plot
-def kd_plot(node_list):
-	dep = 0
-	dep_list = []
-	i_list = []
 
-	for i in range(0, len(node_list)-1):
-		if isinstance(node_list[i], int):
-			# plot
-		else:
-			dep_list.append(dep)
-			i_list.append(i)
-		if len(i_list) == 0 and i_list[len(i_list)-1] != 2:
+def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
+	plt.plot(point[0], point[1], color='black', marker='o') 
+
+	if len(x_axis_list) == 0: # Will always start with x_axis_list
+		x = [point[dim], point[dim]]
+		y = [0, xy_size]
+	else:
+		if l_or_r == 0:
+			if dim == 0:
+				for a in x_axis_list:
+			elif dim == 1:
+				for b in y_axis_list:	
+
+		elif l_or_r == 1:
+			if dim == 0:
+				for c in x_axis_list:
+			elif dim == 1:
+				for d in y_axis_list:
+
+	plt.plot(x, y, color='black', marker='-')
+
+	if dim == 0:
+		x_axis_list.append(point)
+	elif dim == 1:
+		y_axis_list.append(point)
+
 
 
 
@@ -68,11 +89,13 @@ def main():
 	# for sample_points in pointList:
 	# 	dimensions = len(sample_points[0])
 	global d
+	global x_axis_list
+	global y_axis_list
+	x_axis_list = []
+	y_axis_list = []
+
 	d = dimensions
 	node_list = nested_kd_list(points2D)
-
-	if d == 2:
-		kd_plot(node_list)
 
 
 
