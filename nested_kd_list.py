@@ -53,28 +53,68 @@ def nested_kd_list(x):
 def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 	plt.plot(point[0], point[1], color='black', marker='o') 
 
-	if len(x_axis_list) == 0: # Will always start with x_axis_list
-		x = [point[dim], point[dim]]
-		y = [0, xy_size]
-	else:
-		if l_or_r == 0:
-			if dim == 0:
-				for a in x_axis_list:
-			elif dim == 1:
-				for b in y_axis_list:	
+	max_list = []
+	min_list = []
 
-		elif l_or_r == 1:
-			if dim == 0:
-				for c in x_axis_list:
-			elif dim == 1:
-				for d in y_axis_list:
+	if l_or_r == 0: # 'Left or Right' is only used to determine where the line should go if it falls exactly on another line
+		if dim == 0:
+			new_dim = 1 - dim
+			for d in x_axis_list:
+				if point[new_dim] <= d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] > d[new_dim]:
+					max_list.append(d[new_dim] - point[new_dim])
+			
+			x_1 = max(min_list) + point[dim]
+			x_2 = min(max_list) + point[dim]
+			x = [x_1, x_2]
+
+		elif dim == 1:
+			new_dim = 1 - dim
+			for d in x_axis_list:
+				if point[new_dim] <= d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] > d[new_dim]:
+					max_list.append(d[new_dim] - point[new_dim])
+			
+			x_1 = max(min_list) + point[dim]
+			x_2 = min(max_list) + point[dim]
+			x = [x_1, x_2]
+
+	elif l_or_r == 1:
+		if dim == 0:
+			new_dim = 1 - dim
+			for d in x_axis_list:
+				if point[new_dim] < d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] >= d[new_dim]:
+					max_list.append(d[new_dim] - point[new_dim])
+			
+			x_1 = max(min_list) + point[dim]
+			x_2 = min(max_list) + point[dim]
+			x = [x_1, x_2]
+
+		elif dim == 1:
+			new_dim = 1 - dim
+			for d in x_axis_list:
+				if point[new_dim] < d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] >= d[new_dim]:
+					max_list.append(d[new_dim] - point[new_dim])
+			
+			x_1 = max(min_list) + point[dim]
+			x_2 = min(max_list) + point[dim]
+			x = [x_1, x_2]
+			y = [point[dim], point[dim]]
+
+
 
 	plt.plot(x, y, color='black', marker='-')
 
 	if dim == 0:
-		x_axis_list.append(point)
+		x_axis_list.append(point)  # Goes Up-Down
 	elif dim == 1:
-		y_axis_list.append(point)
+		y_axis_list.append(point) # Goes Left-Right
 
 
 
@@ -91,8 +131,8 @@ def main():
 	global d
 	global x_axis_list
 	global y_axis_list
-	x_axis_list = []
-	y_axis_list = []
+	x_axis_list = [(0,0), (xy_size, xy_size)]
+	y_axis_list = [(0,0), (xy_size, xy_size)]
 
 	d = dimensions
 	node_list = nested_kd_list(points2D)
