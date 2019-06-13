@@ -17,6 +17,7 @@ def insertion(point, tree_node, cur_dep): # Parameters: (Point, Tree, Current De
 			new_node = [point, None, None]
 			tree_node[1] = new_node
 			l_or_r = 0
+			kd_plot(point, dim, l_or_r)
 		else:
 			insertion(point, tree_node[1], cur_dep + 1)
 			
@@ -25,10 +26,11 @@ def insertion(point, tree_node, cur_dep): # Parameters: (Point, Tree, Current De
 			new_node = [point, None, None]
 			tree_node[2] = new_node
 			l_or_r = 1
+			kd_plot(point, dim, l_or_r)
 		else: 
 			insertion(point, tree_node[2], cur_dep + 1) 
 
-	kd_plot(point, dim, l_or_r)
+	
 
 	return tree_node
 
@@ -40,10 +42,11 @@ def nested_kd_list(x):
 	while i < len(x):
 		if i == 0:
 			tree_node[0] = x[i]
+			kd_plot(x[i], 1, 0)
 		else:
 			cur_dep = 0
 			tree_node = insertion(x[i], tree_node, cur_dep)
-		print(tree_node)
+		# print(tree_node)
 		
 		i += 1
 
@@ -52,64 +55,70 @@ def nested_kd_list(x):
 
 def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 	plt.plot(point[0], point[1], color='black', marker='o') 
-
+	dim = 1 - dim
 	max_list = []
 	min_list = []
 
 	if l_or_r == 0: # 'Left or Right' is only used to determine where the line should go if it falls exactly on another line
 		if dim == 0:
 			new_dim = 1 - dim
-			for d in x_axis_list:
+			for d in y_axis_list:
 				if point[new_dim] <= d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] > d[new_dim]:
 					max_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] > d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
 			
-			x_1 = max(min_list) + point[dim]
-			x_2 = min(max_list) + point[dim]
-			x = [x_1, x_2]
+			y_1 = max(min_list) + point[new_dim]
+			y_2 = min(max_list) + point[new_dim]
+			y = [y_1, y_2]
+			x = [point[dim], point[dim]]
 
 		elif dim == 1:
 			new_dim = 1 - dim
 			for d in x_axis_list:
 				if point[new_dim] <= d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] > d[new_dim]:
 					max_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] > d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
 			
-			x_1 = max(min_list) + point[dim]
-			x_2 = min(max_list) + point[dim]
+			x_1 = max(min_list) + point[new_dim]
+			x_2 = min(max_list) + point[new_dim]
 			x = [x_1, x_2]
+			y = [point[dim], point[dim]]
 
 	elif l_or_r == 1:
 		if dim == 0:
 			new_dim = 1 - dim
-			for d in x_axis_list:
+			for d in y_axis_list:
 				if point[new_dim] < d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] >= d[new_dim]:
 					max_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] >= d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
 			
-			x_1 = max(min_list) + point[dim]
-			x_2 = min(max_list) + point[dim]
-			x = [x_1, x_2]
+			y_1 = max(min_list) + point[new_dim]
+			y_2 = min(max_list) + point[new_dim]
+			y = [y_1, y_2]
+			x = [point[dim], point[dim]]
 
 		elif dim == 1:
 			new_dim = 1 - dim
 			for d in x_axis_list:
 				if point[new_dim] < d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] >= d[new_dim]:
 					max_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] >= d[new_dim]:
+					min_list.append(d[new_dim] - point[new_dim])
 			
-			x_1 = max(min_list) + point[dim]
-			x_2 = min(max_list) + point[dim]
+			x_1 = max(min_list) + point[new_dim]
+			x_2 = min(max_list) + point[new_dim]
 			x = [x_1, x_2]
 			y = [point[dim], point[dim]]
 
 
-
-	plt.plot(x, y, color='black', marker='-')
+	print(point)
+	print(x)
+	print(y)
+	print()
+	plt.plot(x, y, color='black')
 
 	if dim == 0:
 		x_axis_list.append(point)  # Goes Up-Down
@@ -136,6 +145,9 @@ def main():
 
 	d = dimensions
 	node_list = nested_kd_list(points2D)
+
+	plt.title("KD Plot")
+	plt.show()
 
 
 
