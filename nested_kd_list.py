@@ -7,7 +7,7 @@ from random import *
 from math import *
 
 
-xy_size = 11 # Square plot
+xy_size = 20 # Square plot
 
 def insertion(point, tree_node, cur_dep): # Parameters: (Point, Tree, Current Depth)
 	dim = cur_dep % d
@@ -63,9 +63,9 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		if dim == 0:
 			new_dim = 1 - dim
 			for d in y_axis_list:
-				if point[new_dim] <= d[0][new_dim] and d[1][1] >= point[new_dim]:
+				if point[new_dim] <= d[0][new_dim] and d[1][new_dim] >= point[dim] and d[1][dim] <= point[dim]:
 					max_list.append(d[0][new_dim] - point[new_dim])
-				if point[new_dim] > d[0][new_dim] and d[1][0] <= point[new_dim]:
+				if point[new_dim] > d[0][new_dim] and d[1][new_dim] >= point[dim] and d[1][dim] <= point[dim]:
 					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			y_1 = max(min_list) + point[new_dim]
@@ -76,9 +76,9 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		elif dim == 1:
 			new_dim = 1 - dim
 			for d in x_axis_list:
-				if point[new_dim] <= d[0][new_dim] and d[2][1] >= point[new_dim]:
+				if point[new_dim] <= d[0][new_dim] and d[2][dim] >= point[dim] and d[2][new_dim] <= point[dim]:
 					max_list.append(d[0][new_dim] - point[new_dim])
-				if point[new_dim] > d[0][new_dim] and d[2][0] <= point[new_dim]:
+				if point[new_dim] > d[0][new_dim] and d[2][dim] >= point[dim] and d[2][new_dim] <= point[dim]:
 					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			x_1 = max(min_list) + point[new_dim]
@@ -90,9 +90,9 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		if dim == 0:
 			new_dim = 1 - dim
 			for d in y_axis_list:
-				if point[new_dim] < d[0][new_dim] and d[1][1] >= point[new_dim]:
+				if point[new_dim] < d[0][new_dim] and d[1][new_dim] >= point[dim] and d[1][dim] <= point[dim]:
 					max_list.append(d[0][new_dim] - point[new_dim])
-				if point[new_dim] >= d[0][new_dim] and d[1][0] <= point[new_dim]:
+				if point[new_dim] >= d[0][new_dim] and d[1][new_dim] >= point[dim] and d[1][dim] <= point[dim]:
 					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			y_1 = max(min_list) + point[new_dim]
@@ -103,9 +103,9 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		elif dim == 1:
 			new_dim = 1 - dim
 			for d in x_axis_list:
-				if point[new_dim] < d[0][new_dim] and d[2][1] >= point[new_dim]:
+				if point[new_dim] < d[0][new_dim] and d[2][dim] >= point[dim] and d[2][new_dim] <= point[dim]:
 					max_list.append(d[0][new_dim] - point[new_dim])
-				if point[new_dim] >= d[0][new_dim] and d[2][0] <= point[new_dim]:
+				if point[new_dim] >= d[0][new_dim] and d[2][dim] >= point[dim] and d[2][new_dim] <= point[dim]:
 					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			x_1 = max(min_list) + point[new_dim]
@@ -127,7 +127,9 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 def main():
 	# Non-Random Tests
 	# points1D = [(1,), (3,), (5,), (5,), (2,)]
-	points2D = [(1,10), (3,5), (5,4), (5,3), (2,8), (3,2)]
+	# Alt test points 2D 
+	# points2D = [(1,10), (3,5), (5,4), (5,3), (2,8), (3,2)]
+	points2D = [(3, 6), (17, 15), (13, 15), (6, 12), (9, 1), (2, 7), (10, 19)]
 	# points3D = [(1,10,7), (3,5,3), (5,4,0), (5,3,6), (2,8,9)]
 	# pointList = [points1D, points2D, points3D]
 	dimensions = 2
