@@ -63,10 +63,10 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		if dim == 0:
 			new_dim = 1 - dim
 			for d in y_axis_list:
-				if point[new_dim] <= d[new_dim]:
-					max_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] > d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] <= d[0][new_dim] and d[1][1] >= point[new_dim]:
+					max_list.append(d[0][new_dim] - point[new_dim])
+				if point[new_dim] > d[0][new_dim] and d[1][0] <= point[new_dim]:
+					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			y_1 = max(min_list) + point[new_dim]
 			y_2 = min(max_list) + point[new_dim]
@@ -76,10 +76,10 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		elif dim == 1:
 			new_dim = 1 - dim
 			for d in x_axis_list:
-				if point[new_dim] <= d[new_dim]:
-					max_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] > d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] <= d[0][new_dim] and d[2][1] >= point[new_dim]:
+					max_list.append(d[0][new_dim] - point[new_dim])
+				if point[new_dim] > d[0][new_dim] and d[2][0] <= point[new_dim]:
+					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			x_1 = max(min_list) + point[new_dim]
 			x_2 = min(max_list) + point[new_dim]
@@ -90,10 +90,10 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		if dim == 0:
 			new_dim = 1 - dim
 			for d in y_axis_list:
-				if point[new_dim] < d[new_dim]:
-					max_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] >= d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] < d[0][new_dim] and d[1][1] >= point[new_dim]:
+					max_list.append(d[0][new_dim] - point[new_dim])
+				if point[new_dim] >= d[0][new_dim] and d[1][0] <= point[new_dim]:
+					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			y_1 = max(min_list) + point[new_dim]
 			y_2 = min(max_list) + point[new_dim]
@@ -103,10 +103,10 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 		elif dim == 1:
 			new_dim = 1 - dim
 			for d in x_axis_list:
-				if point[new_dim] < d[new_dim]:
-					max_list.append(d[new_dim] - point[new_dim])
-				if point[new_dim] >= d[new_dim]:
-					min_list.append(d[new_dim] - point[new_dim])
+				if point[new_dim] < d[0][new_dim] and d[2][1] >= point[new_dim]:
+					max_list.append(d[0][new_dim] - point[new_dim])
+				if point[new_dim] >= d[0][new_dim] and d[2][0] <= point[new_dim]:
+					min_list.append(d[0][new_dim] - point[new_dim])
 			
 			x_1 = max(min_list) + point[new_dim]
 			x_2 = min(max_list) + point[new_dim]
@@ -114,16 +114,12 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 			y = [point[dim], point[dim]]
 
 
-	print(point)
-	print(x)
-	print(y)
-	print()
 	plt.plot(x, y, color='black')
 
 	if dim == 0:
-		x_axis_list.append(point)  # Goes Up-Down
+		x_axis_list.append([point,x,y])  # Goes Up-Down
 	elif dim == 1:
-		y_axis_list.append(point) # Goes Left-Right
+		y_axis_list.append([point,x,y]) # Goes Left-Right
 
 
 
@@ -131,7 +127,7 @@ def kd_plot(point, dim, l_or_r): # (Point, Mod Dimension, Left/Right)
 def main():
 	# Non-Random Tests
 	# points1D = [(1,), (3,), (5,), (5,), (2,)]
-	points2D = [(1,10), (3,5), (5,4), (5,3), (2,8)]
+	points2D = [(1,10), (3,5), (5,4), (5,3), (2,8), (3,2)]
 	# points3D = [(1,10,7), (3,5,3), (5,4,0), (5,3,6), (2,8,9)]
 	# pointList = [points1D, points2D, points3D]
 	dimensions = 2
@@ -140,8 +136,8 @@ def main():
 	global d
 	global x_axis_list
 	global y_axis_list
-	x_axis_list = [(0,0), (xy_size, xy_size)]
-	y_axis_list = [(0,0), (xy_size, xy_size)]
+	x_axis_list = [[(0,0),[0,xy_size],[0,xy_size]], [(xy_size, xy_size),[0,xy_size],[0,xy_size]]]
+	y_axis_list = [[(0,0),[0,xy_size],[0,xy_size]], [(xy_size, xy_size),[0,xy_size],[0,xy_size]]]
 
 	d = dimensions
 	node_list = nested_kd_list(points2D)
